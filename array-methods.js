@@ -14,14 +14,12 @@ var hundredThousandairs = dataset.bankBalances.filter(function (cash) {
 
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
 var sumOfBankBalances = dataset.bankBalances.map(function (cash) {
-  return cash.amount;
+  return Number(cash.amount);
 }).reduce(function (a, b) {
-  previous = parseInt(a);
-  current = parseInt(b);
-  sum = previous + current;
-  console.log('a',a)
-  console.log('b',b)
-  return sum;
+  // previous = parseInt(a); // Why does setting the return of the map function to Number(cash.amount work while converting previous/current to numbers using parseint doesnt?
+  // current = parseInt(b);
+  a += b;
+  return a
 })
 
 /*
