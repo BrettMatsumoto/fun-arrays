@@ -1,5 +1,6 @@
 var dataset = require('./dataset.json');
 
+const selectedStates = ['WI', 'IL', 'WY', 'OH', 'GA', 'DE'];
 /*
   create an array with accounts from bankBalances that are
   greater than 100000
@@ -16,8 +17,6 @@ var hundredThousandairs = dataset.bankBalances.filter(function (cash) {
 var sumOfBankBalances = dataset.bankBalances.map(function (cash) {
   return Number(cash.amount);
 }).reduce(function (a, b) {
-  // previous = parseInt(a); // Why does setting the return of the map function to Number(cash.amount work while converting previous/current to numbers using parseint doesnt?
-  // current = parseInt(b);
   a += b;
   return a
 })
@@ -34,14 +33,17 @@ var sumOfBankBalances = dataset.bankBalances.map(function (cash) {
   and then sum it all up into one value saved to `sumOfInterests`
  */
 var sumOfInterests = dataset.bankBalances.filter(function (element) {
-  if (element.state === 'WI' || element.state === 'IL' || element.state === 'WY' || element.state === 'OH' || element.state === 'GA' || element.state === 'DE') {
+  if (element[0] === selectedStates) {
+
     return true
   }
 }).map(function (element) {
   let money = Math.round(Number(element.amount * .189));
+
   return money;
 }).reduce(function (a, b) {
   a += b;
+
   return a
 })
 
@@ -62,10 +64,13 @@ var sumOfInterests = dataset.bankBalances.filter(function (element) {
   )
  */
 var stateSums = dataset.bankBalances.reduce(function (previousValue, currentValue) {
+
   if (!previousValue.hasOwnProperty(currentValue.state)) {
     previousValue[currentValue.state] = Number(currentValue.amount);
+
   } else {
     previousValue[currentValue.state] += Math.round(currentValue.amount);
+
   }
   return previousValue;
 }, {})
@@ -86,7 +91,6 @@ var stateSums = dataset.bankBalances.reduce(function (previousValue, currentValu
     round this number to the nearest dollar before moving on.
   )
  */
-const selectedStates = ['WI', 'IL', 'WY', 'OH', 'GA', 'DE'];
 
 let statesArr = Object.keys(stateSums);
 let totalInterest = 0;
@@ -109,6 +113,7 @@ sumOfHighInterests = statesArr.filter(element => !selectedStates.includes(elemen
   in the state is less than 1,000,000
  */
 var lowerSumStates = Object.entries(stateSums).filter(function (element) {
+
   if (element[1] < 1000000) {
     let lowerNumbers = element[1];
     return lowerNumbers
@@ -148,13 +153,13 @@ var higherStateSums = Object.entries(stateSums).filter(function (element) {
   otherwise set it to `false`
  */
 
-selectedStates
-
 var areStatesInHigherStateSum = Object.entries(stateSums).filter(function (element) {
+
   if (selectedStates.includes(element[0])) {
     return element[1];
   }
 }).every(function (element) {
+
   if (element[1] > 2550000) {
     return true
   }
@@ -175,10 +180,12 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function (eleme
   otherwise set it to be `false`
  */
 var anyStatesInHigherStateSum = Object.entries(stateSums).filter(function (element) {
+
   if (selectedStates.includes(element[0])) {
     return element[1];
   }
 }).some(function (element) {
+
   if (element[1] > 2550000) {
     return true;
   }
