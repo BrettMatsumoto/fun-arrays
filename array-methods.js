@@ -67,7 +67,6 @@ var stateSums = dataset.bankBalances.reduce(function (previousValue, currentValu
   } else {
     previousValue[currentValue.state] += Math.round(currentValue.amount);
   }
-  console.log(previousValue)
   return previousValue;
 }, {})
 /*
@@ -87,15 +86,30 @@ var stateSums = dataset.bankBalances.reduce(function (previousValue, currentValu
     round this number to the nearest dollar before moving on.
   )
  */
-var sumOfHighInterests = null;
+const selectedStates = ['WI', 'IL', 'WY', 'OH', 'GA', 'DE'];
+
+let statesArr = Object.keys(stateSums);
+let totalInterest = 0;
+
+sumOfHighInterests = statesArr.filter(element => !selectedStates.includes(element))
+
+  .map(element => stateSums[element] * 0.189)
+
+  .filter(element => element > 50000)
+
+  .reduce((prev, curr) => {
+    totalInterest = prev + parseFloat(curr);
+    totalInterest = Math.round(totalInterest)
+    return parseFloat(totalInterest.toFixed(0))
+  }, 0);
 
 /*
   set `lowerSumStates` to be an array of two letter state
   abbreviations of each state where the sum of amounts
   in the state is less than 1,000,000
  */
-var lowerSumStates = null;
-
+var lowerSumStates = statesArr
+console.log(statesArr)
 /*
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
