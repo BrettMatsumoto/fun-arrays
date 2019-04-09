@@ -154,8 +154,8 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function (eleme
   if (selectedStates.includes(element[0])) {
     return element[1];
   }
-}).every(function(element){
-  if (element[1] > 2550000){
+}).every(function (element) {
+  if (element[1] > 2550000) {
     return true
   }
 })
@@ -174,7 +174,16 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function (eleme
   have a sum of account values greater than 2,550,000
   otherwise set it to be `false`
  */
-var anyStatesInHigherStateSum = null;
+var anyStatesInHigherStateSum = Object.entries(stateSums).filter(function (element) {
+  if (selectedStates.includes(element[0])) {
+    return element[1];
+  }
+}).some(function (element) {
+  if (element[1] > 2550000) {
+    return true;
+  }
+})
+
 
 
 module.exports = {
