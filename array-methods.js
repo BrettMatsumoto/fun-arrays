@@ -33,7 +33,17 @@ var sumOfBankBalances = dataset.bankBalances.map(function (cash) {
   take each `amount` and add 18.9% interest to it rounded to the nearest dollar 
   and then sum it all up into one value saved to `sumOfInterests`
  */
-var sumOfInterests = null;
+var sumOfInterests = dataset.bankBalances.filter(function (element) {
+  if (element.state === 'WI' || element.state === 'IL' || element.state === 'WY' || element.state === 'OH' || element.state === 'GA' || element.state === 'DE') {
+    return true
+  }
+}).map(function (element) {
+  let money = Math.round(Number(element.amount * .189));
+  return money;
+}).reduce(function (a, b) {
+  a += b;
+  return a
+})
 
 /*
   aggregate the sum of bankBalance amounts
@@ -51,8 +61,12 @@ var sumOfInterests = null;
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = null;
+var stateSums = dataset.bankBalances.reduce(function(previousValue,currentValue,index,array){
+  if (previousValue.state === currentValue.state){
+    Number(previousValue.amount) += Number(currentValue.amount)
+  }
 
+},{})
 /*
   for all states *NOT* in the following states:
     Wisconsin
