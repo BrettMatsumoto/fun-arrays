@@ -108,8 +108,18 @@ sumOfHighInterests = statesArr.filter(element => !selectedStates.includes(elemen
   abbreviations of each state where the sum of amounts
   in the state is less than 1,000,000
  */
-var lowerSumStates = statesArr
-console.log(statesArr)
+var lowerSumStates = Object.entries(stateSums).filter(function (element){
+  if (element[1] < 1000000){
+    let lowerNumbers = element[1];
+    console.log('lower',lowerNumbers)
+    return lowerNumbers
+  }
+}).map(function(element){
+  return element[0];
+})
+
+console.log(lowerSumStates);
+
 /*
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
