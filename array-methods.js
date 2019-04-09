@@ -61,12 +61,15 @@ var sumOfInterests = dataset.bankBalances.filter(function (element) {
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = dataset.bankBalances.reduce(function(previousValue,currentValue,index,array){
-  if (previousValue.state === currentValue.state){
-    Number(previousValue.amount) += Number(currentValue.amount)
+var stateSums = dataset.bankBalances.reduce(function (previousValue, currentValue) {
+  if (!previousValue.hasOwnProperty(currentValue.state)) {
+    previousValue[currentValue.state] = Number(currentValue.amount);
+  } else {
+    previousValue[currentValue.state] += Math.round(currentValue.amount);
   }
-
-},{})
+  console.log(previousValue)
+  return previousValue;
+}, {})
 /*
   for all states *NOT* in the following states:
     Wisconsin
