@@ -123,12 +123,12 @@ var lowerSumStates = Object.entries(stateSums).filter(function (element) {
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
 var higherStateSums = Object.entries(stateSums).filter(function (element) {
-  if (element[1] > 1000000){
+  if (element[1] > 1000000) {
 
     return element[1];
   }
 }).reduce(function (a, b) {
-  
+
   return a += b[1];
 }, 0);
 
@@ -147,7 +147,18 @@ var higherStateSums = Object.entries(stateSums).filter(function (element) {
   if true set `areStatesInHigherStateSum` to `true`
   otherwise set it to `false`
  */
-var areStatesInHigherStateSum = null;
+
+selectedStates
+
+var areStatesInHigherStateSum = Object.entries(stateSums).filter(function (element) {
+  if (selectedStates.includes(element[0])) {
+    return element[1];
+  }
+}).every(function(element){
+  if (element[1] > 2550000){
+    return true
+  }
+})
 
 /*
   Stretch Goal && Final Boss
